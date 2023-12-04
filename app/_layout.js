@@ -22,7 +22,7 @@ export default function HomeLayout() {
         }}
       />
       <Tabs.Screen
-        name="secondPage"
+        name="expenses"
         options={{
           title: "Expenses",
           tabBarIcon: ({ size, color }) => (
