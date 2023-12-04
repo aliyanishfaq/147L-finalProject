@@ -10,6 +10,7 @@ import {
   ScrollView,
   FlatList,
   Image,
+  Dimensions
 } from "react-native";
 import { useEffect, useState } from "react";
 import { DataTable } from "react-native-paper";
@@ -19,6 +20,7 @@ import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView from "react-native-maps";
 import { autocompleteExpenditure } from "./clearbit.js";
+const { height: windowHeight, width: windowWidth } = Dimensions.get("window");
 
 export default function App() {
   const [items, setTableData] = useState([]);
@@ -347,6 +349,7 @@ export default function App() {
                 is24Hour={true}
                 display="spinner" // or 'spinner' or 'calendar'
                 onChange={handleDateChange}
+          
               />
             )}
             <TextInput
@@ -549,6 +552,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     //width: "100%",
     padding: 10,
+    width: windowWidth * 0.9,
   },
   autocompleteItem: {
     flexDirection: "row",
