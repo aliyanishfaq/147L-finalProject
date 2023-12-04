@@ -1,5 +1,6 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
+import { Tabs } from "expo-router";
 import {
   StyleSheet,
   View,
@@ -17,6 +18,9 @@ const windowWidth = Dimensions.get("window").width;
 export default function App() {
   return (
     <ScrollView style={styles.container}>
+      <Tabs.Screen
+                options={{headerShown: false}}
+              />
       <Card style={styles.header}>
         <View style={styles.cardTitleContainer}>
           <Text style={styles.title}>Expenses Tracker</Text>

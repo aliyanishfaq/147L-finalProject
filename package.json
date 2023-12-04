@@ -1,5 +1,5 @@
 {
-  "name": "first_app",
+  "name": "PennyPal",
   "version": "1.0.0",
   "main": "expo-router/entry",
   "scripts": {
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "7.2.0",
+    "axios": "^1.6.2",
     "expo": "~49.0.13",
     "expo-constants": "~14.4.2",
     "expo-linking": "~5.0.2",
@@ -17,6 +18,7 @@
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
     "react-native": "0.72.5",
+    "react-native-autogrow-textinput": "^5.4.0",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-maps": "1.7.1",
     "react-native-paper": "^5.11.3",

@@ -9,13 +9,13 @@ export default function HomeLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          tabBarLabel: "Home",
+          title: "Home",
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="home" size={size} color={color} />
           ),
@@ -24,16 +24,16 @@ export default function HomeLayout() {
       <Tabs.Screen
         name="secondPage"
         options={{
-          tabBarLabel: "Expenses",
+          title: "Expenses",
           tabBarIcon: ({ size, color }) => (
             <FontAwesome name="dollar" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="thirdPage"
+        name="digitalAssistant"
         options={{
-          tabBarLabel: "Messages",
+          title: "Digital Assistant",
           tabBarIcon: ({ size, color }) => (
             <AntDesign name="message1" size={size} color={color} />
           ),
@@ -42,7 +42,7 @@ export default function HomeLayout() {
       <Tabs.Screen
         name="fourthPage"
         options={{
-          tabBarLabel: "Stocks",
+          title: "Stocks",
           tabBarIcon: ({ size, color }) => (
             <Fontisto name="money-symbol" size={size} color={color} />
           ),
