@@ -7,5 +7,8 @@ This is a financial cross platform mobile application that tracks expenses for s
 -------------------------------------------
 To run this code locally, be sure to install expo Go on your local machine and run 
 npm install expo - to download all the node_modules
+npm install react-native-gifted-charts
+npm install @react-native-community/datetimepicker --save
+
 npx expo start
 
