@@ -10,23 +10,23 @@ import {
   ScrollView,
   FlatList,
   Image,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import { useEffect, useState } from "react";
-import { DataTable } from "react-native-paper";
 import Modal from "react-native-modal";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MapView from "react-native-maps";
-import { autocompleteExpenditure } from "./clearbit.js";
+import { autocompleteExpenditure } from "../utils/clearbit.js";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons.js";
+import LineGraph from "../utils/graph.js";
+import TrackInfo from "../utils/expenditure.js";
+
 const { height: windowHeight, width: windowWidth } = Dimensions.get("window");
 
 export default function App() {
   const [items, setTableData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [totalCost, setCost] = useState(0);
-  const [color, setColor] = useState("green");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [date, setDate] = useState(new Date(1598051730000));
   const [suggestions, setSuggestions] = useState([]);
@@ -98,14 +98,13 @@ export default function App() {
             }
             setTableData([]);
             setCost(0);
-            setColor("green");
           },
         },
       ]
     );
   };
 
-  const deleteRow = (index) => {
+  const deleteRow = async (index) => {
     Alert.alert(
       "Confirmation",
       "Are you sure you want to delete this expense?",
@@ -130,20 +129,6 @@ export default function App() {
             // Update the state to trigger a re-render
             setTableData(updatedItems);
 
-            // Recalculate the color
-            if (totalCost > 0) {
-              const redValue = Math.min(
-                100,
-                Math.round((totalCost / 100) * 100)
-              );
-              setColor(`rgb(${255}, 0, ${100 - redValue})`);
-            } else {
-              setColor("green");
-            }
-            if (items.length === 1) {
-              setColor("green");
-            }
-            console.log(items, color, totalCost);
             try {
               const storedItems = await AsyncStorage.getItem("expenseItems");
               const parsedItems = JSON.parse(storedItems);
@@ -183,12 +168,6 @@ export default function App() {
         logo: newRow.logo,
       },
     ];
-    if (totalCost > 0) {
-      const redValue = Math.min(100, Math.round((totalCost / 100) * 100)); // Convert to RGB
-      setColor(`rgb(${255}, 0, ${100 - redValue})`);
-    } else {
-      setColor("green");
-    }
 
     // calculate the percentage and add manually to the data ( val/total - smart way to do it)
     setTableData(updatedItems);
@@ -256,149 +235,146 @@ export default function App() {
     }
   };
 
+  const renderExpenses = (item) => {
+    return (
+      <TouchableOpacity onLongPress={() => deleteRow(item.index)}>
+        <TrackInfo list={item.item} />
+      </TouchableOpacity>
+    );
+  };
+
+  const delGuide = () => {
+    Alert.alert("Insight: Long press a transaction to delete it!");
+    [
+      {
+        text: "Got it!",
+        style: "cancel",
+      },
+    ];
+  };
+
   return (
-    <ScrollView>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.topContainer}>
-          <View style={[styles.expense, { backgroundColor: color }]}>
-            <Text style={styles.number}>${totalCost.toFixed(2)}</Text>
-          </View>
-          <View style={styles.head}>
-            <TouchableOpacity style={styles.addRowButton} onPress={addRow}>
-              <Text style={styles.addRowButtonText}>Add new expense</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.headerText}>Expenses</Text>
+        </View>
+        <View style={styles.headerIcons}>
+          <View>
+            <TouchableOpacity onPress={addRow}>
+              <MaterialIcons name="addchart" size={40} color="#001861" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.clearAllButton} onPress={deleteAll}>
-              <Text style={styles.addRowButtonText}>Clear all expenses</Text>
+          </View>
+          <View>
+            <TouchableOpacity onPress={deleteAll}>
+              <MaterialIcons name="clear-all" size={40} color="#001861" />
             </TouchableOpacity>
           </View>
         </View>
+      </View>
+      <View style={styles.expensecontainer}>
+        <View style={styles.expensebody}>
+          <Text style={styles.expense}>${totalCost.toFixed(2)}</Text>
+        </View>
+      </View>
+      <View style={styles.graphs}>
+        <Text> coming soon</Text>
+        {/* <LineGraph lineData={items} /> */}
+      </View>
+      <View style={styles.transactbox}>
+        <View>
+          <Text style={styles.transaction}> Transactions </Text>
+        </View>
+        <View>
+          <TouchableOpacity onPress={delGuide}>
+            <MaterialIcons name="insights" size={40} color="purple" />
+          </TouchableOpacity>
+        </View>
+      </View>
 
-        <DataTable style={styles.dataTable}>
-          <DataTable.Header style={styles.header}>
-            <DataTable.Title style={styles.headerTitle}>Remove</DataTable.Title>
-            <DataTable.Title style={styles.headerTitle}>Date</DataTable.Title>
-            <DataTable.Title style={styles.headerTitle}>Logo</DataTable.Title>
-            <DataTable.Title style={styles.headerTitle}>
-              Expenditure
-            </DataTable.Title>
-            <DataTable.Title style={styles.headerTitle}>
-              Category
-            </DataTable.Title>
-            <DataTable.Title numeric style={styles.headerTitleNumeric}>
-              Cost
-            </DataTable.Title>
-            <DataTable.Title numeric style={styles.headerTitleNumeric}>
-              Percentage
-            </DataTable.Title>
-          </DataTable.Header>
+      <ScrollView>
+        <View>
+          <FlatList
+            data={items}
+            renderItem={renderExpenses}
+            keyExtractor={(item) => item.expenditure}
+          />
+        </View>
+      </ScrollView>
 
-          {items.map((item, index) => (
-            <DataTable.Row key={index} style={styles.dataRow}>
-              <DataTable.Cell style={styles.cell}>
-                <TouchableOpacity onPress={() => deleteRow(index)}>
-                  <Feather name="square" size={24} color="#0078fe" />
-                </TouchableOpacity>
-              </DataTable.Cell>
-              <DataTable.Cell style={styles.cell}>
-                {item.date.toLocaleDateString()}
-              </DataTable.Cell>
-              <DataTable.Cell style={styles.cell}>
-                {item.logo ? (
+      <Modal isVisible={modalVisible} onBackdropPress={closeRowModal}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>Let's add your new expense!</Text>
+          <TouchableOpacity onPress={dateSelect}>
+            <View style={styles.input}>
+              <Text style={styles.inputText}>
+                {newRow.date ? newRow.date.toLocaleDateString() : "Select Date"}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="calendar" // or 'spinner' or 'calendar'
+              onChange={handleDateChange}
+            />
+          )}
+          <TextInput
+            style={styles.input1}
+            placeholder="Expenditure"
+            placeholderTextColor="#ec4899"
+            value={newRow.expenditure}
+            onChangeText={async (text) => {
+              setNewRow({ ...newRow, expenditure: text });
+              const suggestion = await autocompleteExpenditure(text);
+              setSuggestions(suggestion);
+              // Handle suggestions, e.g., show them in a dropdown
+              console.log(suggestions);
+            }}
+          />
+          <FlatList
+            data={suggestions}
+            keyExtractor={(item) => item.domain}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  setNewRow({
+                    ...newRow,
+                    logo: item.logo,
+                    expenditure: item.name,
+                  });
+                  setSuggestions([]);
+                }}
+              >
+                <View style={styles.autocompleteItem}>
                   <Image source={{ uri: item.logo }} style={styles.logo} />
-                ) : (
-                  <Image
-                    source={require("../assets/cart.png")}
-                    style={styles.logo}
-                  />
-                )}
-                {/* <Image source={{ uri: item.logo }} style={styles.logo} /> */}
-              </DataTable.Cell>
-              <DataTable.Cell style={styles.cell}>
-                {item.expenditure}
-              </DataTable.Cell>
-              <DataTable.Cell style={styles.cell}>
-                {item.category}
-              </DataTable.Cell>
-              <DataTable.Cell numeric style={styles.cellNumeric}>
-                {item.cost}
-              </DataTable.Cell>
-              <DataTable.Cell numeric style={styles.cellNumeric}>
-                {item.percentage}
-              </DataTable.Cell>
-            </DataTable.Row>
-          ))}
-        </DataTable>
-
-        <Modal isVisible={modalVisible} onBackdropPress={closeRowModal}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Let's add your new expense</Text>
-            <TouchableOpacity onPress={dateSelect}>
-              <View style={styles.input}>
-                <Text style={styles.inputText}>
-                  {newRow.date
-                    ? newRow.date.toLocaleDateString()
-                    : "Select Date"}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            {showDatePicker && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode="date"
-                is24Hour={true}
-                display="spinner" // or 'spinner' or 'calendar'
-                onChange={handleDateChange}
-          
-              />
+                  <Text>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
             )}
-            <TextInput
-              style={styles.input}
-              placeholder="Expenditure"
-              value={newRow.expenditure}
-              onChangeText={async (text) => {
-                setNewRow({ ...newRow, expenditure: text });
-                const suggestion = await autocompleteExpenditure(text);
-                setSuggestions(suggestion);
-                // Handle suggestions, e.g., show them in a dropdown
-                console.log(suggestions);
-              }}
-            />
-            <FlatList
-              data={suggestions}
-              keyExtractor={(item) => item.domain}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    setNewRow({
-                      ...newRow,
-                      logo: item.logo,
-                      expenditure: item.name,
-                    });
-                    setSuggestions([]);
-                  }}
-                >
-                  <View style={styles.autocompleteItem}>
-                    <Image source={{ uri: item.logo }} style={styles.logo} />
-                    <Text>{item.name}</Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Category"
-              value={newRow.category}
-              onChangeText={(text) => setNewRow({ ...newRow, category: text })}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Cost (Enter numbers only)"
-              value={newRow.cost}
-              onChangeText={CheckNumType}
-              keyboardType="numeric"
-            />
+          />
+          <TextInput
+            style={styles.input2}
+            color="green"
+            placeholder="Cost (Enter numbers only)"
+            placeholderTextColor="green"
+            value={newRow.cost}
+            onChangeText={CheckNumType}
+            keyboardType="numeric"
+          />
+          <TextInput
+            style={styles.input1}
+            color="#f05e16"
+            placeholder="Category"
+            placeholderTextColor="#f05e16"
+            value={newRow.category}
+            onChangeText={(text) => setNewRow({ ...newRow, category: text })}
+          />
 
+          <View style={styles.end}>
             <TouchableOpacity style={styles.modalButton} onPress={saveRow}>
               <Text style={styles.modalButtonText}>Save</Text>
             </TouchableOpacity>
@@ -409,21 +385,62 @@ export default function App() {
               <Text style={styles.modalButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </Modal>
+        </View>
+      </Modal>
 
-        <StatusBar style="auto" />
-      </SafeAreaView>
-    </ScrollView>
+      <StatusBar style="auto" />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },
+  header: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: windowWidth * 0.9,
+    flexDirection: "row",
+    margin: "5%",
+  },
+  headerText: {
+    //fontFamily: "Montserrat-Bold", // Replace with the name of your imported font
+    fontSize: 32,
+    color: "black",
+    fontWeight: "bold",
+  },
+  headerIcons: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: windowWidth * 0.23,
+  },
+  expensebody: {
+    width: windowWidth * 0.8,
+    height: windowWidth * 0.18,
+    backgroundColor: "#001861",
+    borderRadius: 15,
+    alignItems: "center",
+  },
+  expensecontainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  expense: {
+    padding: 15,
+    fontSize: 32,
+    color: "white",
+  },
+  graphs: {
+    margin: 3,
+    width: windowWidth * 0.9,
+    height: windowWidth * 0.5,
+  },
+
   topContainer: {
     alignItems: "center",
     justifyContent: "center",
@@ -447,64 +464,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
   },
-  expense: {
-    width: "100%",
-    height: 50, // Adjust the height as needed
-    borderRadius: 10, // Adjust the border radius to make it rounded
-    justifyContent: "center",
-    alignItems: "center",
-    paddingLeft: "3%",
-    paddingRight: "3%",
-  },
+
   dataTable: {
     margin: 10,
   },
-  header: {
-    backgroundColor: "#f0f0f0",
-    justifyContent: "center",
-  },
+
   dataRow: {
     backgroundColor: "#f0f0f0",
   },
-  cell: {
-    // Adjust alignment and padding for text cells
-    textAlign: "left",
-    paddingLeft: 2,
-    flex: 1, // Equal flex for each cell to distribute space evenly
-    justifyContent: "left", // Center content vertically
-  },
-  cellNumeric: {
-    // Adjust alignment and padding for numeric cells
-    textAlign: "left",
-    paddingRight: 2,
-    flex: 1,
-    justifyContent: "center",
-    textAlign: "right",
-  },
-  headerTitle: {
-    flex: 1,
-    justifyContent: "left",
-    alignItems: "center", // Center content horizontally
-    width: 80,
-  },
-  headerTitleNumeric: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "flex-end", // Align numeric headers to the end
-    width: 100,
-  },
+
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: "#e0d6ff",
     padding: 22,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 4,
-    borderColor: "rgba(0, 0, 0, 0.1)",
+    borderRadius: 20,
+    borderColor: "green",
+    borderWidth: 1.5,
   },
 
   modalTitle: {
     fontSize: 20,
     marginBottom: 12,
+    color: "brown",
   },
 
   input: {
@@ -514,14 +496,36 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 8,
     width: "100%",
+    borderRadius: 12,
+    color: "#ec4899",
+  },
+  input1: {
+    height: 40,
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 8,
+    width: "100%",
+    borderRadius: 12,
+    borderColor: "purple", //"#090979"
+    color: "#ec4899",
+  },
+  input2: {
+    height: 40,
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 8,
+    width: "100%",
+    borderRadius: 12,
+    borderColor: "#090979",
+    color: "#ec4899",
   },
 
   modalButton: {
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#0F52BA", //#5F9EA0", //"#001861",
     padding: 10,
     marginTop: 10,
     alignItems: "center",
-    borderRadius: 4,
+    borderRadius: 10,
   },
 
   modalButtonText: {
@@ -536,34 +540,64 @@ const styles = StyleSheet.create({
     padding: 8,
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 30,
   },
   inputText: {
     fontSize: 16,
-    color: "black",
+    color: "#001861",
   },
 
-  number: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  head: {
-    justifyContent: "space-between",
-    flexDirection: "row",
-    //width: "100%",
-    padding: 10,
-    width: windowWidth * 0.9,
-  },
+  // number: {
+  //   color: "white",
+  //   fontSize: 20,
+  //   fontWeight: "bold",
+  // },
+  // head: {
+  //   justifyContent: "space-between",
+  //   flexDirection: "row",
+  //   //width: "100%",
+  //   padding: 10,
+  //   width: windowWidth * 0.9,
+  // },
   autocompleteItem: {
     flexDirection: "row",
     alignItems: "center",
     padding: 8,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderColor: "purple",
+    borderWidth: 2,
+    borderRadius: 8,
+    margin: 2,
   },
   logo: {
     width: 25,
     height: 25,
     marginRight: 8,
+  },
+  graphs: {
+    width: windowWidth * 0.9,
+    height: windowWidth * 0.4,
+    borderWidth: 3,
+    borderColor: "#001861",
+    margin: "3%",
+    borderRadius: 6,
+  },
+  transactbox: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    marginBottom: 4,
+    width: windowWidth * 0.9,
+    height: windowWidth * 0.1,
+  },
+  transaction: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "purple",
+  },
+  end: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: windowWidth * 0.4,
   },
 });
