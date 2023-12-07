@@ -154,6 +154,22 @@ export default function App() {
   };
 
   const saveRow = () => {
+    if (newRow.date === "") {
+      Alert.alert("Error", "Please select a valid date.");
+      return;
+    }
+    if (newRow.expenditure === "") {
+      Alert.alert("Error", "Please enter an expenditure.");
+      return;
+    }
+    if (newRow.cost === "" || newRow.cost == 0) {
+      Alert.alert("Error", "Please enter a valid cost.");
+      return;
+    }
+    if (newRow.category === "") {
+      Alert.alert("Error", "Please enter a category.");
+      return;
+    }
     const newRowCost = newRow.cost ? parseFloat(newRow.cost) : 0;
     setCost((prevTotalCost) => prevTotalCost + newRowCost);
 
@@ -213,8 +229,6 @@ export default function App() {
     });
   };
 
-  // next step - try and catch date obtaining errors and alert the user to select
-  // or fill other parts of the form
   const handleDateChange = (event, selectedDate) => {
     if (event.type === "set") {
       const formattedDate = selectedDate || newRow.date;
@@ -278,8 +292,7 @@ export default function App() {
         </View>
       </View>
       <View style={styles.graphs}>
-        <Text> coming soon</Text>
-        {/* <LineGraph lineData={items} /> */}
+        <LineGraph lineData={items} />
       </View>
       <View style={styles.transactbox}>
         <View>
@@ -292,7 +305,7 @@ export default function App() {
         </View>
       </View>
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <FlatList
             data={items}
@@ -547,18 +560,6 @@ const styles = StyleSheet.create({
     color: "#001861",
   },
 
-  // number: {
-  //   color: "white",
-  //   fontSize: 20,
-  //   fontWeight: "bold",
-  // },
-  // head: {
-  //   justifyContent: "space-between",
-  //   flexDirection: "row",
-  //   //width: "100%",
-  //   padding: 10,
-  //   width: windowWidth * 0.9,
-  // },
   autocompleteItem: {
     flexDirection: "row",
     alignItems: "center",
@@ -577,10 +578,12 @@ const styles = StyleSheet.create({
   graphs: {
     width: windowWidth * 0.9,
     height: windowWidth * 0.4,
+    paddingBottom: 12,
     borderWidth: 3,
     borderColor: "#001861",
     margin: "3%",
     borderRadius: 6,
+    paddingTop: 10,
   },
   transactbox: {
     alignItems: "center",
