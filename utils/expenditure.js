@@ -1,12 +1,4 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { Text, View, StyleSheet, Image, Dimensions } from "react-native";
 
 const { height: windowHeight, width: windowWidth } = Dimensions.get("window");
 
@@ -34,7 +26,9 @@ const TrackInfo = ({
           </View>
           <View style={styles.comp1}>
             <View style={styles.box}>
-              <Text style={styles.txt}>{expenditure}</Text>
+              <Text style={styles.txt} numberOfLines={1}>
+                {expenditure}
+              </Text>
             </View>
             <View style={styles.box}>
               <Text style={styles.txt1}>{category}</Text>
@@ -66,8 +60,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    // borderWidth: 2,
-    // borderColor: "red",
     width: windowWidth * 0.97,
   },
   container: {
@@ -91,6 +83,8 @@ const styles = StyleSheet.create({
   comp1: {
     flexDirection: "column",
     alignItems: "left",
+
+    width: windowWidth * 0.3,
   },
   txt: {
     color: "black",
