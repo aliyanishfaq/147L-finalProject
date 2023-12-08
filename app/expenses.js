@@ -40,7 +40,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    // Load items from AsyncStorage when the component mounts
+    // Load items from AsyncStorage when screen mounts
     loadItemsFromStorage();
   }, []);
 
@@ -90,7 +90,7 @@ export default function App() {
         {
           text: "Yes",
           onPress: async () => {
-            // Clear AsyncStorage data
+            //Clear AsyncStorage data
             try {
               await AsyncStorage.removeItem("expenseItems");
             } catch (error) {
@@ -116,19 +116,11 @@ export default function App() {
         {
           text: "Yes",
           onPress: async () => {
-            // Get the cost of the row to be deleted
             const deletedRowCost = parseFloat(items[index].cost);
-
-            // Update the total cost
             setCost((prevTotalCost) => prevTotalCost - deletedRowCost);
-
-            // Remove the row at the specified index
             const updatedItems = [...items];
             updatedItems.splice(index, 1);
-
-            // Update the state to trigger a re-render
             setTableData(updatedItems);
-
             try {
               const storedItems = await AsyncStorage.getItem("expenseItems");
               const parsedItems = JSON.parse(storedItems);
@@ -185,11 +177,11 @@ export default function App() {
       },
     ];
 
-    // calculate the percentage and add manually to the data ( val/total - smart way to do it)
+    //calculate the percentage and add manually to the data ( val/total - smart way to do it)
     setTableData(updatedItems);
     calculateTotalCost(updatedItems);
 
-    // Save items to AsyncStorage
+    //Save items to AsyncStorage
     saveItemsToStorage(updatedItems);
 
     setNewRow({
@@ -201,8 +193,6 @@ export default function App() {
       logo: "",
     });
     setModalVisible(false);
-    console.log(items);
-    console.log(items);
   };
 
   useEffect(() => {
@@ -214,7 +204,6 @@ export default function App() {
         }))
       );
     }
-    // Additional effects can be added here if needed
   }, [totalCost]);
 
   const closeRowModal = () => {
@@ -242,7 +231,6 @@ export default function App() {
   };
   const CheckNumType = (text) => {
     if (/^[0-9.]*$/.test(text)) {
-      console.log(text);
       setNewRow({ ...newRow, cost: text });
     } else {
       Alert.alert("Error", "Please enter numbers only.");
@@ -265,6 +253,28 @@ export default function App() {
         style: "cancel",
       },
     ];
+  };
+
+  const contentDisplayed = (items) => {
+    if (items.length === 0) {
+      return (
+        <View style={styles.contain}>
+          <TouchableOpacity onPress={addRow}>
+            <Text style={styles.temptxt}>Click to Add an expense</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <FlatList
+            data={items}
+            renderItem={renderExpenses}
+            keyExtractor={(item) => item.expenditure}
+          />
+        </View>
+      );
+    }
   };
 
   return (
@@ -304,15 +314,8 @@ export default function App() {
           </TouchableOpacity>
         </View>
       </View>
-
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View>
-          <FlatList
-            data={items}
-            renderItem={renderExpenses}
-            keyExtractor={(item) => item.expenditure}
-          />
-        </View>
+        {contentDisplayed(items)}
       </ScrollView>
 
       <Modal isVisible={modalVisible} onBackdropPress={closeRowModal}>
@@ -344,8 +347,6 @@ export default function App() {
               setNewRow({ ...newRow, expenditure: text });
               const suggestion = await autocompleteExpenditure(text);
               setSuggestions(suggestion);
-              // Handle suggestions, e.g., show them in a dropdown
-              console.log(suggestions);
             }}
           />
           <FlatList
@@ -602,5 +603,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     width: windowWidth * 0.4,
+  },
+  temptxt: {
+    fontSize: 18,
+    color: "white",
+  },
+  contain: {
+    marginTop: 20,
+    borderWidth: 2,
+    borderRadius: 6,
+    backgroundColor: "#001861",
+    padding: 5,
   },
 });
