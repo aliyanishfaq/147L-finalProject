@@ -4,9 +4,7 @@ import { View, StyleSheet, Dimensions, ScrollView, Text } from "react-native";
 const { height: windowHeight, width: windowWidth } = Dimensions.get("window");
 
 const colors = ["yellow", "white", "#0BA5A4", "orange"];
-// need useEffect to show changes, scale the graph down to 80, and have these dataset for
-// inital use when user has no expenses added for style
-// current graph structure is terrible- keeps on increasing even if prices go down - check flight
+
 const LineGraph = (lineData) => {
   //
   let datasets = [];
@@ -63,10 +61,16 @@ const LineGraph = (lineData) => {
       if (!groupedData[lowercaseCategory]) {
         groupedData[lowercaseCategory] = [];
       }
-      const val = (groupedData[lowercaseCategory].length + 1) * 2;
+      //scale the graph down to accomodate on screen
+      let nval = cost;
+      if (nval < 200) {
+        nval = nval / 8;
+      } else {
+        nval = nval / 90;
+      }
       groupedData[lowercaseCategory].push({
-        value: val,
-        dataPointText: cost.toString(),
+        value: nval,
+        // dataPointText: cost.toString(),
       });
     });
 
@@ -75,18 +79,15 @@ const LineGraph = (lineData) => {
       data: groupedData[category],
       color: colors[Math.floor(Math.random() * colors.length)],
     }));
-    console.log(result);
     console.log(JSON.stringify(result, null, 2));
 
     datasets = [];
 
     result.forEach((item) => {
-      // Check if the item has a 'data' property
       if (item.data) {
         datasets.push(item.data);
       }
     });
-    console.log(datasets);
   }
 
   return (
@@ -103,10 +104,10 @@ const LineGraph = (lineData) => {
           <LineChart
             initialSpacing={-1}
             data={graphData}
-            spacing={25}
+            spacing={20}
             textColor1="yellow"
             textShiftY={-8}
-            textShiftX={8}
+            textShiftX={5}
             textFontSize={13}
             thickness={2}
             hideRules
@@ -116,7 +117,7 @@ const LineGraph = (lineData) => {
             showVerticalLines
             verticalLinesColor="rgba(14,164,164,0.5)"
             xAxisColor="#0BA5A4"
-            color={result[index].color} //"#0BA5A4" //{graphData.color}
+            color={result[index].color} //"#0BA5A4"
             height={windowWidth * 0.2}
             width={windowWidth * 0.3}
           />
@@ -135,13 +136,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: "#1A3461",
     borderWidth: 2,
-    borderRadius: 3,
+    borderRadius: 8,
     justifyContent: "space-between",
     width: windowWidth * 0.38,
     paddingRight: 8,
   },
   graphName: {
-    //color: "white",
     fontSize: 16,
     marginBottom: 10,
     padding: 6,
