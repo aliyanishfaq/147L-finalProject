@@ -281,7 +281,6 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Text style={styles.headerText}>Expenses</Text>
         </View>
         <View style={styles.headerIcons}>
           <View>
@@ -410,7 +409,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#eeeeee",
     alignItems: "center",
     justifyContent: "center",
   },

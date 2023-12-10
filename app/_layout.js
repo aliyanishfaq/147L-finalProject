@@ -15,10 +15,22 @@ export default function HomeLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "PennyPal",
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="home" size={size} color={color} />
           ),
+          headerStyle: {
+            backgroundColor: "#eeeeee",
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            padding: 10,
+            fontSize: 20,
+            
+          },
+          headerTitleAlign: 'left',
+          tabBarStyle: { backgroundColor: "#eeeeee" },
         }}
       />
       <Tabs.Screen
@@ -28,6 +40,18 @@ export default function HomeLayout() {
           tabBarIcon: ({ size, color }) => (
             <FontAwesome name="dollar" size={size} color={color} />
           ),
+          headerStyle: {
+            backgroundColor: "#eeeeee",
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            padding: 10,
+            fontSize: 22,
+            
+          },
+          headerTitleAlign: 'left',
+          tabBarStyle: { backgroundColor: "#eeeeee" },
         }}
       />
       <Tabs.Screen
@@ -37,6 +61,18 @@ export default function HomeLayout() {
           tabBarIcon: ({ size, color }) => (
             <AntDesign name="message1" size={size} color={color} />
           ),
+          headerStyle: {
+            backgroundColor: "#eeeeee",
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            padding: 10,
+            fontSize: 20,
+            
+          },
+          headerTitleAlign: 'left',
+          tabBarStyle: { backgroundColor: "#eeeeee" },
         }}
       />
     </Tabs>

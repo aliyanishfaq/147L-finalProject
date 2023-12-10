@@ -8,27 +8,27 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  SafeAreaView
 } from "react-native";
-import { Card, Title, Paragraph, Button, Text } from "react-native-paper";
+import { Card, Text, Title, Paragraph, Button, } from "react-native-paper";
 import MapView from "react-native-maps";
 import { Link } from "expo-router";
 
-const windowWidth = Dimensions.get("window").width;
+
+const { height: windowHeight, width: windowWidth } = Dimensions.get("window");
 
 export default function App() {
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.screenContainer}>
       <Tabs.Screen options={{ headerShown: false }} />
-      <Card style={styles.header}>
-        <View style={styles.cardTitleContainer}>
-          <Text style={styles.title}>Expenses Tracker</Text>
-          <Image source={require("../assets/logo.png")} style={styles.logo} />
-        </View>
+    <ScrollView style={styles.container}>
+    <Card style={styles.header} mode='contained' theme={{roundness: 0}}>
+          <Text style={styles.title}>PennyPal</Text>
       </Card>
       <Paragraph style={styles.descriptionTagline}>
         The optimal way to manage money.
       </Paragraph>
-      <Card style={styles.descriptionBox}>
+      <Card style={styles.descriptionBox} mode='elevated'>
         <Card.Content>
           <Paragraph style={styles.introParagraph}>
             Designed to empower large-scale enterprises, our app offers a
@@ -39,7 +39,7 @@ export default function App() {
         </Card.Content>
       </Card>
       <Title style={styles.descriptionTagline2}>Current Clients:</Title>
-      <Card style={styles.logosCard}>
+      <Card style={styles.logosCard} mode='contained' theme={{roundness: 0}}>
         <ScrollView
           horizontal={true}
           style={styles.carousel}
@@ -92,7 +92,7 @@ export default function App() {
                 <Button
                   mode="contained"
                   labelStyle={styles.buttonLabelStyle}
-                  style={[styles.button, { backgroundColor: "#001861" }]}
+                  style={[styles.button, { backgroundColor: "#ADD8E6" }]}
                 >
                   <Text style={styles.linkText}>Expenses</Text>
                 </Button>
@@ -102,7 +102,7 @@ export default function App() {
 
           <Card style={[styles.imageContainer, styles.cardSpacing2]}>
             <Card.Cover
-              source={require("../assets/chatbot.jpeg")}
+              source={require("../assets/chatbot.png")}
               style={styles.image}
             />
             <Card.Actions>
@@ -110,7 +110,7 @@ export default function App() {
                 <Button
                   mode="contained"
                   labelStyle={styles.buttonLabelStyle}
-                  style={[styles.button, { backgroundColor: "#001861" }]}
+                  style={[styles.button, { backgroundColor: "#ADD8E6" }]}
                 >
                   <Text style={styles.linkText}>AI Chatbot</Text>
                 </Button>
@@ -122,13 +122,20 @@ export default function App() {
       <MapView style={styles.map} />
       <StatusBar style="auto" />
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  screenContainer: {
+    flex: 1,
+    backgroundColor: "#eeeeee",
+    alignItems: "center",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#eeeeee",
+    width: windowWidth
   },
   cardTitleContainer: {
     flexDirection: "row",
@@ -138,12 +145,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-    backgroundColor: "white",
-    borderColor: "#001861",
+    justifyContent: "center",
+    backgroundColor: "#eeeeee",
+    borderColor: "#eeeeee",
     borderWidth: 3,
     marginTop: 10,
+    padding: windowWidth * 0.1
   },
   logo: {
     width: 50,
@@ -152,10 +159,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    fontSize: 30,
+    fontSize: 52,
     fontWeight: "bold",
     fontFamily: "Helvetica Neue",
-    color: "black",
+    color: "#001861",
   },
   introParagraph: {
     fontSize: 14,
@@ -163,12 +170,12 @@ const styles = StyleSheet.create({
     color: "black",
   },
   descriptionTagline: {
-    fontSize: 18,
-    textAlign: "left",
+    fontSize: windowHeight * 0.02,
+    textAlign: "center",
     paddingHorizontal: 10,
     marginTop: 30,
     fontFamily: "Helvetica Neue",
-    color: "purple",
+    color: "#001861",
     fontWeight: "bold",
   },
   descriptionTagline2: {
@@ -178,7 +185,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 20,
     fontFamily: "Helvetica Neue",
-    color: "purple",
+    color: "#001861",
     fontWeight: "bold",
   },
   descriptionTagline3: {
@@ -188,19 +195,21 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 20,
     fontFamily: "Helvetica Neue",
-    color: "purple",
+    color: "#001861",
     fontWeight: "bold",
   },
   descriptionBox: {
     paddingHorizontal: 0,
     marginTop: 20,
     marginHorizontal: 10,
-    borderColor: "#001861",
+    borderColor: "#ADD8E6",
     borderWidth: 3,
-    backgroundColor: "white",
+    backgroundColor: "#ADD8E6",
+    height: windowHeight * 0.15,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   logosCard: {
-    marginHorizontal: 10,
     backgroundColor: "white",
     overflow: "hidden",
   },
@@ -219,8 +228,6 @@ const styles = StyleSheet.create({
     height: 100, // Set the height you want for the logos carousel
     width: windowWidth,
     backgroundColor: "white",
-    borderColor: "#001861",
-    borderWidth: 3,
   },
   imagesWithSubtitlesContainer: {
     flexDirection: "row",
@@ -229,11 +236,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   imageContainer: {
-    width: windowWidth * 0.45, // Set a fixed width for both cards
-    height: 200, // Set a fixed height for both cards
-    // You can add margin or padding if needed for spacing
+    width: windowWidth * 0.5,
+    alignItems: 'center',
     marginVertical: 10, // Adds vertical space around the cards
-    borderColor: "#001861",
+    borderColor: "#ADD8E6",
     borderWidth: 1,
   },
   cardSpacing1: {
@@ -246,14 +252,14 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   image: {
-    width: "100%", // The image container width
-    height: 150, // Adjust the height as necessary
+    width: windowWidth * 0.42, // The image container width
+    aspectRatio: 1, // Adjust the height as necessary
     resizeMode: "contain", // To fit the image within the given dimensions
   },
   linkText: {
     fontSize: 14, // Adjust the font size as necessary
     marginTop: 8, // Space between image and subtitle
-    color: "white",
+    color: "black",
     fontFamily: "Helvetica Neue",
   },
   linkStyle: {

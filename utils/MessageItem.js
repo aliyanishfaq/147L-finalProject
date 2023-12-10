@@ -27,7 +27,7 @@ export default function MessageItem({ role, content }) {
 const styles = StyleSheet.create({
     rightArrow: {
       position: "absolute",
-      backgroundColor: "#0078fe",
+      backgroundColor: '#ADD8E6',
       //backgroundColor:"red",
       width: 20,
       height: 25,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     
     },
     sentMessage: {
-        backgroundColor: "#0078fe",
+        backgroundColor: '#ADD8E6',
         padding:10,
         //marginLeft: '45%',
         borderRadius: 5,

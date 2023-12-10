@@ -15,11 +15,10 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { TextInput, Button } from "react-native-paper";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Tabs } from "expo-router";
 
-import MapView from "react-native-maps";
 const { height: windowHeight, width: windowWidth } = Dimensions.get("window");
 import {
   KeyboardAvoidingView,
@@ -124,32 +123,6 @@ export default function App() {
   const scrollToBottom = () => {
     flatListRef.current.scrollToEnd({ animated: true });
   };
-  function SendButton({ disabled }) {
-    if (disabled) {
-      return (
-        <Image
-          source={require("../assets/LoadingArrow.png")}
-          style={{
-            aspectRatio: 1,
-            height: windowHeight * 0.034,
-            borderRadius: "50%",
-          }}
-        />
-      );
-    } else {
-      return (
-        <Image
-          source={require("../assets/blue-arrow.png")}
-          style={{
-            aspectRatio: 1,
-            height: windowHeight * 0.034,
-            borderRadius: "50%",
-          }}
-        />
-      );
-    }
-  }
-
   return (
     <SafeAreaView style={styles.screenContainer}>
       <View style={styles.container}>
@@ -166,7 +139,7 @@ export default function App() {
       </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"} // to not hide text input below keyboard in ios and android
-        keyboardVerticalOffset={Platform.OS === "ios" ? windowHeight * 0.12 : 0}
+        keyboardVerticalOffset={Platform.OS === "ios" ? windowHeight * 0.105 : 0}
       >
         <View style={styles.question}>
           <Pressable
@@ -179,7 +152,7 @@ export default function App() {
               source={require("../assets/reload.png")}
               style={{
                 aspectRatio: 1,
-                height: windowHeight * 0.034,
+                height: windowHeight * 0.038,
                 borderRadius: 50,
               }}
             />
@@ -201,36 +174,31 @@ export default function App() {
               source={require("../assets/blue-arrow.png")}
               style={{
                 aspectRatio: 1,
-                height: windowHeight * 0.034,
+                height: windowHeight * 0.038,
                 borderRadius: 50,
               }}
             />
           </Pressable>
         </View>
       </KeyboardAvoidingView>
-
-      <MapView style={styles.map} />
-      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
 // remove borders
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: 'blue',
+  },
   container: {
     flex: 1,
     backgroundColor: "#eeeeee",
     alignItems: "center",
-    gap: windowHeight * 0.005,
-    borderWidth: 4,
     borderColor: "transparent",
   },
   screenContainer: {
     flex: 1,
     backgroundColor: "#eeeeee",
     alignItems: "center",
-    gap: windowHeight * 0.005,
-    borderWidth: 4,
-    borderColor: "transparent",
   },
   arrow: {
     height: 50,
@@ -238,23 +206,29 @@ const styles = StyleSheet.create({
   question: {
     flexDirection: "row",
     width: windowWidth,
-    justifyContent: "left",
+    justifyContent: "center",
     alignItems: "center",
-    width: windowWidth * 0.95,
-    borderWidth: 4,
+    width: windowWidth,
+    borderWidth: 5,
     borderColor: "transparent",
+    borderTopEndRadius: 25,
+    borderTopStartRadius: 25,
     gap: windowWidth * 0.015,
+    paddingLeft: windowWidth * 0.020,
+    paddingRight: windowWidth * 0.020,
+    paddingTop: windowHeight * 0.01,
+    paddingBottom: windowHeight * 0.01,
+    backgroundColor: '#D3D3D3',
   },
   messagesContainer: {
-    borderWidth: 4,
-    borderColor: "transparent",
-    width: windowWidth * 0.95,
+    width: windowWidth,
   },
   textInput: {
     borderWidth: 1,
-    borderColor: "#5A5A5A",
+    borderColor: "#ADD8E6",
+    backgroundColor: '#ADD8E6',
     width: windowWidth * 0.75,
     borderRadius: 20,
-    padding: 5,
+    padding: 8,
   },
 });
