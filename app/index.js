@@ -18,9 +18,7 @@ const windowWidth = Dimensions.get("window").width;
 export default function App() {
   return (
     <ScrollView style={styles.container}>
-      <Tabs.Screen
-                options={{headerShown: false}}
-              />
+      <Tabs.Screen options={{ headerShown: false }} />
       <Card style={styles.header}>
         <View style={styles.cardTitleContainer}>
           <Text style={styles.title}>Expenses Tracker</Text>
@@ -42,7 +40,11 @@ export default function App() {
       </Card>
       <Title style={styles.descriptionTagline2}>Current Clients:</Title>
       <Card style={styles.logosCard}>
-        <ScrollView horizontal={true} style={styles.carousel}>
+        <ScrollView
+          horizontal={true}
+          style={styles.carousel}
+          showsHorizontalScrollIndicator={false}
+        >
           <Image
             source={require("../assets/amazonLogo.png")}
             style={styles.companyLogo}
@@ -82,15 +84,15 @@ export default function App() {
         <View style={styles.imagesWithSubtitlesContainer}>
           <Card style={[styles.imageContainer, styles.cardSpacing1]}>
             <Card.Cover
-              source={require("../assets/coinbaseLogo.png")} // replace with picture of expenses list page
+              source={require("../assets/expenses.png")}
               style={styles.image}
             />
             <Card.Actions>
-              <Link href="/secondPage" style={styles.linkStyle}>
+              <Link href="/expenses" style={styles.linkStyle}>
                 <Button
                   mode="contained"
                   labelStyle={styles.buttonLabelStyle}
-                  style={[styles.button, { backgroundColor: "#003366" }]}
+                  style={[styles.button, { backgroundColor: "#001861" }]}
                 >
                   <Text style={styles.linkText}>Expenses</Text>
                 </Button>
@@ -100,34 +102,17 @@ export default function App() {
 
           <Card style={[styles.imageContainer, styles.cardSpacing2]}>
             <Card.Cover
-              source={require("../assets/coinbaseLogo.png")} // replace with picture of chatGPT page
+              source={require("../assets/chatbot.jpeg")}
               style={styles.image}
             />
             <Card.Actions>
-              <Link href="/thirdPage" style={styles.linkStyle}>
+              <Link href="/digitalAssistant" style={styles.linkStyle}>
                 <Button
                   mode="contained"
                   labelStyle={styles.buttonLabelStyle}
-                  style={[styles.button, { backgroundColor: "#003366" }]}
+                  style={[styles.button, { backgroundColor: "#001861" }]}
                 >
                   <Text style={styles.linkText}>AI Chatbot</Text>
-                </Button>
-              </Link>
-            </Card.Actions>
-          </Card>
-          <Card style={styles.imageContainer}>
-            <Card.Cover
-              source={require("../assets/coinbaseLogo.png")} // replace with picture of stock exchange page
-              style={styles.image}
-            />
-            <Card.Actions>
-              <Link href="/fourthPage" style={styles.linkStyle}>
-                <Button
-                  mode="contained"
-                  labelStyle={styles.buttonLabelStyle}
-                  style={[styles.button, { backgroundColor: "#003366" }]}
-                >
-                  <Text style={styles.linkText}>Stock Watch</Text>
                 </Button>
               </Link>
             </Card.Actions>
@@ -148,13 +133,17 @@ const styles = StyleSheet.create({
   cardTitleContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 60,
+    paddingTop: 30,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 10,
+    backgroundColor: "white",
+    borderColor: "#001861",
+    borderWidth: 3,
+    marginTop: 10,
   },
   logo: {
     width: 50,
@@ -166,44 +155,58 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     fontFamily: "Helvetica Neue",
+    color: "black",
   },
   introParagraph: {
     fontSize: 14,
     fontFamily: "Helvetica Neue",
+    color: "black",
   },
   descriptionTagline: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: "left",
     paddingHorizontal: 10,
     marginTop: 30,
     fontFamily: "Helvetica Neue",
+    color: "purple",
+    fontWeight: "bold",
   },
   descriptionTagline2: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: "left",
     paddingHorizontal: 10,
     marginTop: 30,
     marginBottom: 20,
     fontFamily: "Helvetica Neue",
+    color: "purple",
+    fontWeight: "bold",
   },
   descriptionTagline3: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: "left",
     paddingHorizontal: 10,
     marginTop: 30,
     marginBottom: 20,
     fontFamily: "Helvetica Neue",
+    color: "purple",
+    fontWeight: "bold",
   },
   descriptionBox: {
     paddingHorizontal: 0,
     marginTop: 20,
     marginHorizontal: 10,
+    borderColor: "#001861",
+    borderWidth: 3,
+    backgroundColor: "white",
   },
   logosCard: {
     marginHorizontal: 10,
+    backgroundColor: "white",
+    overflow: "hidden",
   },
   appInfo: {
     fontSize: 12,
+    color: "white",
   },
   companyLogo: {
     width: windowWidth * 0.13,
@@ -215,6 +218,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 100, // Set the height you want for the logos carousel
     width: windowWidth,
+    backgroundColor: "white",
+    borderColor: "#001861",
+    borderWidth: 3,
   },
   imagesWithSubtitlesContainer: {
     flexDirection: "row",
@@ -227,12 +233,12 @@ const styles = StyleSheet.create({
     height: 200, // Set a fixed height for both cards
     // You can add margin or padding if needed for spacing
     marginVertical: 10, // Adds vertical space around the cards
+    borderColor: "#001861",
+    borderWidth: 1,
   },
   cardSpacing1: {
-    marginRight: 15,
-  },
-  cardSpacing2: {
-    marginRight: 15,
+    marginLeft: 15,
+    marginRight: 10,
   },
   button: {
     width: 150,

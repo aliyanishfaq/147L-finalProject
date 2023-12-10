@@ -39,15 +39,6 @@ export default function HomeLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="fourthPage"
-        options={{
-          title: "Stocks",
-          tabBarIcon: ({ size, color }) => (
-            <Fontisto name="money-symbol" size={size} color={color} />
-          ),
-        }}
-      />
     </Tabs>
   );
 }
