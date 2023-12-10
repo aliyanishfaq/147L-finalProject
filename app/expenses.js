@@ -280,8 +280,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <View>
-        </View>
+        <View></View>
         <View style={styles.headerIcons}>
           <View>
             <TouchableOpacity onPress={addRow}>

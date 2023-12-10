@@ -8,12 +8,11 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
-import { Card, Text, Title, Paragraph, Button, } from "react-native-paper";
+import { Card, Text, Title, Paragraph, Button } from "react-native-paper";
 import MapView from "react-native-maps";
 import { Link } from "expo-router";
-
 
 const { height: windowHeight, width: windowWidth } = Dimensions.get("window");
 
@@ -21,107 +20,111 @@ export default function App() {
   return (
     <SafeAreaView style={styles.screenContainer}>
       <Tabs.Screen options={{ headerShown: false }} />
-    <ScrollView style={styles.container}>
-    <Card style={styles.header} mode='contained' theme={{roundness: 0}}>
+      <ScrollView style={styles.container}>
+        <Card style={styles.header} mode="contained" theme={{ roundness: 0 }}>
           <Text style={styles.title}>PennyPal</Text>
-      </Card>
-      <Paragraph style={styles.descriptionTagline}>
-        The optimal way to manage money.
-      </Paragraph>
-      <Card style={styles.descriptionBox} mode='elevated'>
-        <Card.Content>
-          <Paragraph style={styles.introParagraph}>
-            Designed to empower large-scale enterprises, our app offers a
-            seamless, cross-platform solution for tracking expenses across
-            various categories and delivering tailored financial advice to
-            maximize profits.
-          </Paragraph>
-        </Card.Content>
-      </Card>
-      <Title style={styles.descriptionTagline2}>Current Clients:</Title>
-      <Card style={styles.logosCard} mode='contained' theme={{roundness: 0}}>
-        <ScrollView
-          horizontal={true}
-          style={styles.carousel}
-          showsHorizontalScrollIndicator={false}
+        </Card>
+        <Paragraph style={styles.descriptionTagline}>
+          The optimal way to manage money.
+        </Paragraph>
+        <Card style={styles.descriptionBox} mode="elevated">
+          <Card.Content>
+            <Paragraph style={styles.introParagraph}>
+              Designed to empower small-scale enterprises, our app offers a
+              seamless, cross-platform solution for tracking expenses across
+              various categories and delivering tailored financial advice to
+              maximize profits.
+            </Paragraph>
+          </Card.Content>
+        </Card>
+        <Title style={styles.descriptionTagline2}>Current Clients:</Title>
+        <Card
+          style={styles.logosCard}
+          mode="contained"
+          theme={{ roundness: 0 }}
         >
-          <Image
-            source={require("../assets/amazonLogo.png")}
-            style={styles.companyLogo}
-          />
-          <Image
-            source={require("../assets/chatGptLogo.png")}
-            style={styles.companyLogo}
-          />
-          <Image
-            source={require("../assets/cocaCola.png")}
-            style={styles.companyLogo}
-          />
-          <Image
-            source={require("../assets/coinbaseLogo.png")}
-            style={styles.companyLogo}
-          />
-          <Image
-            source={require("../assets/instacartLogo.png")}
-            style={styles.companyLogo}
-          />
-          <Image
-            source={require("../assets/microsoftLogo.png")}
-            style={styles.companyLogo}
-          />
-          <Image
-            source={require("../assets/Bcg.png")}
-            style={styles.companyLogo}
-          />
-          <Image
-            source={require("../assets/apple.png")}
-            style={styles.companyLogo}
-          />
-        </ScrollView>
-      </Card>
-      <Title style={styles.descriptionTagline3}>See App in Action:</Title>
-      <ScrollView horizontal={true} style={styles.carousel2}>
-        <View style={styles.imagesWithSubtitlesContainer}>
-          <Card style={[styles.imageContainer, styles.cardSpacing1]}>
-            <Card.Cover
-              source={require("../assets/expenses.png")}
-              style={styles.image}
+          <ScrollView
+            horizontal={true}
+            style={styles.carousel}
+            showsHorizontalScrollIndicator={false}
+          >
+            <Image
+              source={require("../assets/blinkist.png")}
+              style={styles.companyLogo}
             />
-            <Card.Actions>
-              <Link href="/expenses" style={styles.linkStyle}>
-                <Button
-                  mode="contained"
-                  labelStyle={styles.buttonLabelStyle}
-                  style={[styles.button, { backgroundColor: "#ADD8E6" }]}
-                >
-                  <Text style={styles.linkText}>Expenses</Text>
-                </Button>
-              </Link>
-            </Card.Actions>
-          </Card>
+            <Image
+              source={require("../assets/babbel.png")}
+              style={styles.companyLogo}
+            />
+            <Image
+              source={require("../assets/webacy.png")}
+              style={styles.companyLogo}
+            />
+            <Image
+              source={require("../assets/gopuff.png")}
+              style={styles.companyLogo}
+            />
+            <Image
+              source={require("../assets/instacartLogo.png")}
+              style={styles.companyLogo}
+            />
+            <Image
+              source={require("../assets/peopleAI.png")}
+              style={styles.companyLogo}
+            />
+            <Image
+              source={require("../assets/linguix.png")}
+              style={styles.companyLogo}
+            />
+            <Image
+              source={require("../assets/flyfin.png")}
+              style={styles.companyLogo}
+            />
+          </ScrollView>
+        </Card>
+        <Title style={styles.descriptionTagline3}>See App in Action:</Title>
+        <ScrollView horizontal={true} style={styles.carousel2}>
+          <View style={styles.imagesWithSubtitlesContainer}>
+            <Card style={[styles.imageContainer, styles.cardSpacing1]}>
+              <Card.Cover
+                source={require("../assets/expenses.png")}
+                style={styles.image}
+              />
+              <Card.Actions>
+                <Link href="/expenses" style={styles.linkStyle}>
+                  <Button
+                    mode="contained"
+                    labelStyle={styles.buttonLabelStyle}
+                    style={[styles.button, { backgroundColor: "#ADD8E6" }]}
+                  >
+                    <Text style={styles.linkText}>Expenses</Text>
+                  </Button>
+                </Link>
+              </Card.Actions>
+            </Card>
 
-          <Card style={[styles.imageContainer, styles.cardSpacing2]}>
-            <Card.Cover
-              source={require("../assets/chatbot.png")}
-              style={styles.image}
-            />
-            <Card.Actions>
-              <Link href="/digitalAssistant" style={styles.linkStyle}>
-                <Button
-                  mode="contained"
-                  labelStyle={styles.buttonLabelStyle}
-                  style={[styles.button, { backgroundColor: "#ADD8E6" }]}
-                >
-                  <Text style={styles.linkText}>AI Chatbot</Text>
-                </Button>
-              </Link>
-            </Card.Actions>
-          </Card>
-        </View>
+            <Card style={[styles.imageContainer, styles.cardSpacing2]}>
+              <Card.Cover
+                source={require("../assets/chatbot.png")}
+                style={styles.image}
+              />
+              <Card.Actions>
+                <Link href="/digitalAssistant" style={styles.linkStyle}>
+                  <Button
+                    mode="contained"
+                    labelStyle={styles.buttonLabelStyle}
+                    style={[styles.button, { backgroundColor: "#ADD8E6" }]}
+                  >
+                    <Text style={styles.linkText}>AI Chatbot</Text>
+                  </Button>
+                </Link>
+              </Card.Actions>
+            </Card>
+          </View>
+        </ScrollView>
+        <MapView style={styles.map} />
+        <StatusBar style="auto" />
       </ScrollView>
-      <MapView style={styles.map} />
-      <StatusBar style="auto" />
-    </ScrollView>
     </SafeAreaView>
   );
 }
@@ -135,7 +138,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#eeeeee",
-    width: windowWidth
+    width: windowWidth,
   },
   cardTitleContainer: {
     flexDirection: "row",
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
     borderColor: "#eeeeee",
     borderWidth: 3,
     marginTop: 10,
-    padding: windowWidth * 0.1
+    padding: windowWidth * 0.1,
   },
   logo: {
     width: 50,
@@ -205,9 +208,9 @@ const styles = StyleSheet.create({
     borderColor: "#ADD8E6",
     borderWidth: 3,
     backgroundColor: "#ADD8E6",
-    height: windowHeight * 0.15,
-    alignItems: 'center',
-    justifyContent: 'center'
+    height: windowHeight * 0.21,
+    alignItems: "center",
+    justifyContent: "center",
   },
   logosCard: {
     backgroundColor: "white",
@@ -237,7 +240,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: windowWidth * 0.5,
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 10, // Adds vertical space around the cards
     borderColor: "#ADD8E6",
     borderWidth: 1,

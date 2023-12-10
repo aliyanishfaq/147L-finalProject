@@ -31,7 +31,9 @@ const TrackInfo = ({
               </Text>
             </View>
             <View style={styles.box}>
-              <Text style={styles.txt1}>{category} numberOfLines={1}</Text>
+              <Text style={styles.txt1} numberOfLines={1}>
+                {category}
+              </Text>
             </View>
           </View>
         </View>
