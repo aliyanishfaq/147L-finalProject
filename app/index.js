@@ -7,7 +7,6 @@ import {
   ScrollView,
   Image,
   Dimensions,
-  TouchableOpacity,
   SafeAreaView,
 } from "react-native";
 import { Card, Text, Title, Paragraph, Button } from "react-native-paper";
@@ -222,13 +221,13 @@ const styles = StyleSheet.create({
   },
   companyLogo: {
     width: windowWidth * 0.13,
-    height: 100, // Make this smaller if the logos are still too big
-    resizeMode: "contain", // Ensures the logo fits within the dimensions without distorting
-    marginHorizontal: windowWidth * 0.1, // Centers the logo in the view if it's smaller than the screen width: {
+    height: 100,
+    resizeMode: "contain",
+    marginHorizontal: windowWidth * 0.1,
   },
   carousel: {
     marginTop: 10,
-    height: 100, // Set the height you want for the logos carousel
+    height: 100,
     width: windowWidth,
     backgroundColor: "white",
   },
@@ -241,7 +240,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: windowWidth * 0.5,
     alignItems: "center",
-    marginVertical: 10, // Adds vertical space around the cards
+    marginVertical: 10,
     borderColor: "#ADD8E6",
     borderWidth: 1,
   },
@@ -255,20 +254,19 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   image: {
-    width: windowWidth * 0.42, // The image container width
-    aspectRatio: 1, // Adjust the height as necessary
-    resizeMode: "contain", // To fit the image within the given dimensions
+    width: windowWidth * 0.42,
+    aspectRatio: 1,
+    resizeMode: "contain",
   },
   linkText: {
-    fontSize: 14, // Adjust the font size as necessary
-    marginTop: 8, // Space between image and subtitle
+    fontSize: 14,
+    marginTop: 8,
     color: "black",
     fontFamily: "Helvetica Neue",
   },
   linkStyle: {
-    flex: 1, // Take up the full width of the container
-    justifyContent: "center", // Center content horizontally
-    alignItems: "center", // Center content vertically
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  // Add styles for the rest of your components
 });
