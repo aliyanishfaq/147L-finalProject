@@ -63,7 +63,7 @@ export default function App() {
         },
         {
           headers: {
-            Authorization: `Bearer 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`,
+            Authorization: `Bearer[YOUR-OPENAI-API-KEY]`,
           },
         }
       );
